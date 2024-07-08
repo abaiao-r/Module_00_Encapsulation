@@ -1,0 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Bank.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/08 11:58:58 by guest             #+#    #+#             */
+/*   Updated: 2024/07/08 13:29:44 by guest            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef BANK_HPP
+# define BANK_HPP
+
+#include <vector>
+#include "Account.hpp"
+
+class Bank
+{
+    private:
+        int liquidity;
+        std::vector<Account *> clientAccounts;
+
+    public:
+        Bank(void);
+        Bank(const Bank &src);
+        Bank &operator=(const Bank &src);
+        ~Bank(void);
+
+        int getLiquidity(void) const;
+        void createAccount(void);
+        void deleteAccount(int id);
+        void modifyAccount(int id, int amount);
+        void giveLoan(int id, int amount);
+        std::vector<Account *> &getAccounts(void);
+        void displayAccounts(void) const;
+
+        // p_os = print output stream && p_bank = print bank
+        friend std::ostream &operator<<(std::ostream &p_os , const Bank &p_bank);
+};
+
+#endif
