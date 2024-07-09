@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:50 by guest             #+#    #+#             */
-/*   Updated: 2024/07/09 12:09:04 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/09 13:09:33 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,16 @@ void Bank::giveLoan(int id, int amount)
     std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
 }
 
-const std::vector<Account *> &Bank::getAccounts(void) const
+const std::vector<const Account *> &Bank::getAccounts(void) const
 {
-    return (this->clientAccounts);
+    // reinterpret_cast is used to convert a pointer to any object type into a pointer to any other type
+    // in this case we are converting a pointer to a vector of Account pointers into a pointer to a vector of const Account pointers
+    // this is done to prevent the vector from being modified by the caller
+    // ex: if the caller tries to push_back a new Account into the vector, the compiler will throw an error. 
+    // ex: bank.getAccounts().push_back(new Account());
+    // ex: if the caller tries to modify the value of an Account in the vector, the compiler will throw an error 
+    // ex: bank.getAccounts().at(0)->addValue(100);
+    return reinterpret_cast<const std::vector<const Account *> &>(this->clientAccounts);
 }
 
 void Bank::displayAccounts(void) const

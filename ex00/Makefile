@@ -6,7 +6,7 @@
 #    By: guest <guest@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 11:11:04 by guest             #+#    #+#              #
-#    Updated: 2024/07/09 12:02:42 by guest            ###   ########.fr        #
+#    Updated: 2024/07/09 12:27:30 by guest            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,18 +44,9 @@ run:	fclean all
 
 re:		fclean all
 
-test: 	all
-		./$(NAME) "8 9 * 9 - 9 - 9 - 4 - 1 +"
-		@echo "\n-------------------\n"
-
 
 valgrind: fclean all
 		valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
-
-valgrind_test: fclean all
-		valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) "8 9 * 9 - 9 - 9 - 4 - 1 +"
-		@echo "\n-------------------\n"
-
 		
 
 $(NAME): 	$(OBJS)

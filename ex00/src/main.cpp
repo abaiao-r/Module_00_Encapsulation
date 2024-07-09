@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:59:05 by guest             #+#    #+#             */
-/*   Updated: 2024/07/09 12:06:51 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/09 13:07:00 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,20 +165,8 @@ void testBankReceive5Percent()
     }
 }
 
-int main()
+int main(void)
 {
-    /* Bank bank;
-
-    bank.createAccount();
-    bank.createAccount();
-
-    bank.modifyAccount(0, 100);
-    bank.modifyAccount(1, 200);
-
-    bank.giveLoan(0, 50);
-
-    std::cout << bank << std::endl; */
-
     std::cout << PURPLE << "Running tests...\n" << RESET;
 
     // Encapsulation test

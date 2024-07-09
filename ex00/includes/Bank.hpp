@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:58 by guest             #+#    #+#             */
-/*   Updated: 2024/07/09 11:06:46 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/09 12:53:30 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ class Bank
         void deleteAccount(int id);
         void modifyAccount(int id, int amount);
         void giveLoan(int id, int amount);
-        const std::vector<Account *> &getAccounts(void) const;
+        const std::vector<const Account *> &getAccounts(void) const;
         void displayAccounts(void) const;
 
 };
