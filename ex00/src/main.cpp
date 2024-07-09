@@ -6,17 +6,18 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:59:05 by guest             #+#    #+#             */
-/*   Updated: 2024/07/08 14:07:59 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/09 12:06:51 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Bank.hpp"
 #include "../includes/colours.hpp"
+#include "../includes/TestEncapsulation.hpp"
 #include <iostream>
 
 void testAddMoneyViaBankOnly()
 {
-    std::cout << BLUE << "Test: Adding money to an account can only be done via the bank...\n" << RESET;
+    std::cout << CYAN << "Test: Adding money to an account can only be done via the bank...\n" << RESET;
     Bank bank;
     bank.createAccount();
     int accountId = bank.getAccounts().at(0)->getId();
@@ -40,7 +41,7 @@ void testAddMoneyViaBankOnly()
 
 void testGiveLoan(void)
 {
-    std::cout << BLUE << "Test: Bank can give a loan within its funds...\n" << RESET;
+    std::cout << CYAN << "Test: Bank can give a loan within its funds...\n" << RESET;
     Bank bank;
     bank.createAccount();
     bank.modifyAccount(bank.getAccounts().at(0)->getId(), 1000);
@@ -57,7 +58,7 @@ void testGiveLoan(void)
     }
 
     // Test giving loan exceeding liquidity
-    std::cout << BLUE << "Test: Bank cannot give a loan exceeding its funds...\n" << RESET;
+    std::cout << CYAN << "Test: Bank cannot give a loan exceeding its funds...\n" << RESET;
     Bank bank2;
     bank2.createAccount();
     bank2.modifyAccount(bank2.getAccounts().at(0)->getId(), 1000);
@@ -75,7 +76,7 @@ void testGiveLoan(void)
 
 void testCreateDeleteModifyAccounts()
 {
-    std::cout << BLUE << "Test: Bank can create, delete, and modify accounts...\n" << RESET;
+    std::cout << CYAN << "Test: Bank can create, delete, and modify accounts...\n" << RESET;
     Bank bank;
     bank.createAccount();
     bank.createAccount();
@@ -109,7 +110,7 @@ void testCreateDeleteModifyAccounts()
 
 void testAccountModificationProtection()
 {
-    std::cout << BLUE << "Test: Account attributes are not modifiable from the outside...\n" << RESET;
+    std::cout << CYAN << "Test: Account attributes are not modifiable from the outside...\n" << RESET;
     Account account;
     int originalValue = account.getValue();
 
@@ -128,7 +129,7 @@ void testAccountModificationProtection()
 
 void testUniqueAccountIds()
 {
-    std::cout << BLUE << "Test: Accounts must have unique IDs...\n" << RESET;
+    std::cout << CYAN << "Test: Accounts must have unique IDs...\n" << RESET;
     Bank bank;
     bank.createAccount();
     bank.createAccount();
@@ -148,7 +149,7 @@ void testUniqueAccountIds()
 
 void testBankReceive5Percent()
 {
-    std::cout << BLUE << "Test: Bank receives 5% of each money inflow... \n" << RESET;
+    std::cout << CYAN << "Test: Bank receives 5% of each money inflow... \n" << RESET;
     Bank bank;
     bank.createAccount();
     int accountId = bank.getAccounts().at(0)->getId();
@@ -180,7 +181,11 @@ int main()
 
     std::cout << PURPLE << "Running tests...\n" << RESET;
 
-
+    // Encapsulation test
+/*     TestEncapsulation tester;
+    tester.testAccount();
+    tester.testBank(); */
+    
     testBankReceive5Percent();
     testUniqueAccountIds();
     testAccountModificationProtection();

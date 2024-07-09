@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:50 by guest             #+#    #+#             */
-/*   Updated: 2024/07/08 14:09:56 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/09 12:09:04 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,17 @@ void Bank::modifyAccount(int id, int amount)
             int netAmount = amount - bankFee;
             (*it)->addValue(netAmount);
             this->liquidity += bankFee;
-            break;
+            std::cout << GREEN << "Account " << id << " modified with " << amount << ". The net amount is " << netAmount << " and the bank fee is " << bankFee << RESET << std::endl;
+            return;
         }
     }
+    std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
 }
 
 void Bank::giveLoan(int id, int amount)
 {
+    std::cout << YELLOW << "Loan of " << amount << " requested by account " << id << RESET << std::endl;
+    std::cout << YELLOW << "Bank liquidity : " << this->liquidity << RESET << std::endl;
     if (liquidity < amount)
     {
         std::cout << RED << "Bank has insufficient liquidity" << RESET << std::endl;
@@ -112,14 +116,14 @@ void Bank::giveLoan(int id, int amount)
         {
             (*it)->addValue(amount);
             this->liquidity -= amount;
-            break;
+            std::cout << GREEN << "Loan of " << amount << " granted to account " << id << RESET << std::endl;
+            return;
         }
     }
-
-    std::cout << GREEN << "Loan of " << amount << " granted to account " << id << RESET << std::endl;
+    std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
 }
 
-std::vector<Account *> &Bank::getAccounts(void)
+const std::vector<Account *> &Bank::getAccounts(void) const
 {
     return (this->clientAccounts);
 }

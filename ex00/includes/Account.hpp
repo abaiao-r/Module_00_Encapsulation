@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:59:00 by guest             #+#    #+#             */
-/*   Updated: 2024/07/08 12:24:24 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/09 11:03:20 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ class Account
         void addValue(int amount);
         void deductValue(int amount);
 
-        // p_os = print output stream && p_account = print account
-        friend std::ostream &operator<<(std::ostream &p_os , const Account &p_account);
 };
+    // p_os = print output stream && p_account = print account
+    std::ostream &operator<<(std::ostream &p_os , const Account &p_account);
 
 #endif

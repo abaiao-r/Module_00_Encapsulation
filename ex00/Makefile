@@ -6,7 +6,7 @@
 #    By: guest <guest@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 11:11:04 by guest             #+#    #+#              #
-#    Updated: 2024/07/08 13:07:45 by guest            ###   ########.fr        #
+#    Updated: 2024/07/09 12:02:42 by guest            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ OBJDIR = objs
 
 SRCS =  $(SRCDIR)/main.cpp \
 		$(SRCDIR)/Bank.cpp \
-		$(SRCDIR)/Account.cpp
+		$(SRCDIR)/Account.cpp \
+		$(SRCDIR)/TestEncapsulation.cpp
 		
 OBJS = 	$(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 

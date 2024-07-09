@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:58 by guest             #+#    #+#             */
-/*   Updated: 2024/07/08 13:29:44 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/09 11:06:46 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ class Bank
         void deleteAccount(int id);
         void modifyAccount(int id, int amount);
         void giveLoan(int id, int amount);
-        std::vector<Account *> &getAccounts(void);
+        const std::vector<Account *> &getAccounts(void) const;
         void displayAccounts(void) const;
 
-        // p_os = print output stream && p_bank = print bank
-        friend std::ostream &operator<<(std::ostream &p_os , const Bank &p_bank);
 };
+    // p_os = print output stream && p_bank = print bank
+    std::ostream &operator<<(std::ostream &p_os , const Bank &p_bank);
 
 #endif
