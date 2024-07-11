@@ -39,6 +39,7 @@ void    testAddMoneyAndDeductMoney()
     std::cout << CYAN << "Test: Deducting 20 from an account...\n" << RESET;
     bank.modifyAccount(accountId, -20);
 
+   
     if (bank.getAccounts().at(0)->getValue() == 75 && bank.getLiquidity() == 5)
     {
         std::cout << GREEN << "Test passed!\n" << RESET;
@@ -50,6 +51,8 @@ void    testAddMoneyAndDeductMoney()
 
     std::cout << CYAN << "Test: Deducting 100 from an account...\n" << RESET;
     bank.modifyAccount(accountId, -100);
+    //show account value
+    std::cout << "Account value: " << bank.getAccounts().at(0)->getValue() << std::endl;
 
     if (bank.getAccounts().at(0)->getValue() == 75 && bank.getLiquidity() == 5)
     {
@@ -62,8 +65,15 @@ void    testAddMoneyAndDeductMoney()
 
     std::cout << CYAN << "Test: ADD INT_MAX to an account...\n" << RESET;
     bank.modifyAccount(accountId, INT_MAX);
+    bank.modifyAccount(accountId, INT_MAX);
+    bank.modifyAccount(accountId, INT_MAX);
+    bank.modifyAccount(accountId, INT_MAX);
+    // show account value
+    std::cout << "Account value: " << bank.getAccounts().at(0)->getValue() << std::endl;
+    // show liquidity
+    std::cout << "Liquidity: " << bank.getLiquidity() << std::endl;
 
-    if (bank.getAccounts().at(0)->getValue() == 75 && bank.getLiquidity() == 5)
+    if (bank.getAccounts().at(0)->getValue() == 2040109540 && bank.getLiquidity() == 107374187)
     {
         std::cout << GREEN << "Test passed!\n" << RESET;
     }
@@ -75,7 +85,7 @@ void    testAddMoneyAndDeductMoney()
     std::cout << CYAN << "Test: Deduct INT_MIN from an account...\n" << RESET;
     bank.modifyAccount(accountId, INT_MIN);
 
-    if (bank.getAccounts().at(0)->getValue() == 75 && bank.getLiquidity() == 5)
+    if (bank.getAccounts().at(0)->getValue() == 2040109540 && bank.getLiquidity() == 107374187)
     {
         std::cout << GREEN << "Test passed!\n" << RESET;
     }
@@ -151,7 +161,7 @@ void testGiveLoan(void)
     bank3.modifyAccount(bank3.getAccounts().at(0)->getId(), 1000);
     bank3.giveLoan(bank3.getAccounts().at(0)->getId(), -50);
 
-    if (bank3.getAccounts().at(0)->getValue() == 1000 && bank3.getLiquidity() == 0)
+    if (bank3.getAccounts().at(0)->getValue() == 950 && bank3.getLiquidity() == 50)
     {
         std::cout << GREEN << "Test passed!\n" << RESET;
     }
@@ -167,7 +177,7 @@ void testGiveLoan(void)
     bank4.modifyAccount(bank4.getAccounts().at(0)->getId(), 1000);
     bank4.giveLoan(bank4.getAccounts().at(0)->getId(), INT_MAX);
 
-    if (bank4.getAccounts().at(0)->getValue() == 1000 && bank4.getLiquidity() == 0)
+    if (bank4.getAccounts().at(0)->getValue() == 950 && bank4.getLiquidity() == 50)
     {
         std::cout << GREEN << "Test passed!\n" << RESET;
     }

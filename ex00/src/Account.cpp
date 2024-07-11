@@ -75,6 +75,16 @@ void Account::addValue(int amount)
         std::cerr << RED << "Error: Account " << this->id << " value overflow" << RESET << std::endl;
         return;
     }
+    // Check for underflow
+    if (amount < 0 && this->value < INT_MIN - amount) {
+        std::cerr << RED << "Error: Account " << this->id << " value underflow" << RESET << std::endl;
+        throw std::exception();
+    }
+    // Check for overflow
+    if (amount > 0 && this->value > INT_MAX - amount) {
+        std::cerr << RED << "Error: Account " << this->id << " value overflow" << RESET << std::endl;
+        throw std::exception();
+    }
     this->value += amount;
     std::cout << GREEN << "Account " << this->id << " credited with " << amount << RESET << std::endl;
 }
@@ -88,7 +98,7 @@ void Account::deductValue(int amount)
     }
     try
     {
-        if (this->value - amount < 0)
+        if (this->value + amount < 0)
         {
             throw std::exception();
         }
@@ -98,7 +108,18 @@ void Account::deductValue(int amount)
         std::cerr << RED << "Error: Account " << this->id << " has insufficient funds" << RESET << std::endl;
         return;
     }
-    this->value -= amount;
+    
+    // Check for underflow
+    if (amount < 0 && this->value < INT_MIN - amount) {
+        std::cerr << RED << "Error: Account " << this->id << " value underflow" << RESET << std::endl;
+        throw std::exception();
+    }
+    // Check for overflow
+    if (amount > 0 && this->value > INT_MAX - amount) {
+        std::cerr << RED << "Error: Account " << this->id << " value overflow" << RESET << std::endl;
+        throw std::exception();
+    }
+    this->value += amount;
     std::cout << RED << "Account " << this->id << " debited with " << amount << RESET << std::endl;
 }
 

@@ -97,16 +97,35 @@ void Bank::modifyAccount(int id, int amount)
     {
         if ((*it)->getId() == id)
         {
+
             if (amount < 0)
             {
-                (*it)->deductValue(amount);
+                try
+                {
+                    (*it)->deductValue(amount);
+                }
+                catch (std::exception &e)
+                {
+                    // write a error message to the standard error output stream
+                    std::cerr << RED << "Error: Account " << id << " value overflow or underflow" << RESET << std::endl;
+                    return;
+                }
                 std::cout << GREEN << "Account " << id << " modified with " << amount << RESET << std::endl;
                 return;
             } else if (amount >= 0)
             {
                 int bankFee = amount * 0.05;
                 int netAmount = amount - bankFee;
-                (*it)->addValue(netAmount);
+                try
+                {
+                    (*it)->addValue(netAmount);
+                }
+                catch (std::exception &e)
+                {
+                    // write a error message to the standard error output stream
+                    std::cerr << RED << "Error: Account " << id << " value overflow or underflow" << RESET << std::endl;
+                    return;
+                }
                 this->liquidity += bankFee;
                 std::cout << GREEN << "Account " << id << " modified with " << amount << ". The net amount is " << netAmount << " and the bank fee is " << bankFee << RESET << std::endl;
                 return;
