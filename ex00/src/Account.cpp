@@ -17,6 +17,11 @@ int Account::nextId = 0;
 
 Account::Account(void) : id(nextId), value(0)
 {
+    if (nextId > INT_MAX)
+    {
+        std::cerr << RED << "Error: Account ID overflow" << RESET << std::endl;
+        throw std::exception();
+    }
     nextId++;
 }
 
@@ -53,13 +58,47 @@ int Account::getValue(void) const
 
 void Account::addValue(int amount)
 {
+    if (amount < 0)
+    {
+        std::cerr << RED << "Error: Cannot credit account " << this->id << " with a negative amount" << RESET << std::endl;
+        return;
+    }
+    try
+    {
+        if (this->value + amount > INT_MAX)
+        {
+            throw std::exception();
+        }
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << RED << "Error: Account " << this->id << " value overflow" << RESET << std::endl;
+        return;
+    }
     this->value += amount;
     std::cout << GREEN << "Account " << this->id << " credited with " << amount << RESET << std::endl;
 }
 
 void Account::deductValue(int amount)
 {
-   this->value -= amount;
+    if (amount > 0)
+    {
+        std::cerr << RED << "Error: Cannot debit account " << this->id << " with a positive amount" << RESET << std::endl;
+        return;
+    }
+    try
+    {
+        if (this->value - amount < 0)
+        {
+            throw std::exception();
+        }
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << RED << "Error: Account " << this->id << " has insufficient funds" << RESET << std::endl;
+        return;
+    }
+    this->value -= amount;
     std::cout << RED << "Account " << this->id << " debited with " << amount << RESET << std::endl;
 }
 

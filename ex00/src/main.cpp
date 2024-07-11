@@ -14,6 +14,77 @@
 #include "../includes/colours.hpp"
 #include "../includes/TestEncapsulation.hpp"
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+#include <set>
+
+void    testAddMoneyAndDeductMoney()
+{
+    std::cout << CYAN << "Test: Adding 100 to an account...\n" << RESET;
+    Bank bank;
+    bank.createAccount();
+    int accountId = bank.getAccounts().at(0)->getId();
+
+    bank.modifyAccount(accountId, 100);
+    if (bank.getAccounts().at(0)->getValue() == 95 && bank.getLiquidity() == 5)
+    {
+        std::cout << GREEN << "Test passed!\n" << RESET;
+    }
+    else
+    {
+        std::cout << RED << "Test failed!\n" << RESET;
+    }
+
+    std::cout << CYAN << "Test: Deducting 20 from an account...\n" << RESET;
+    bank.modifyAccount(accountId, -20);
+
+    if (bank.getAccounts().at(0)->getValue() == 75 && bank.getLiquidity() == 5)
+    {
+        std::cout << GREEN << "Test passed!\n" << RESET;
+    }
+    else
+    {
+        std::cout << RED << "Test failed!\n" << RESET;
+    }
+
+    std::cout << CYAN << "Test: Deducting 100 from an account...\n" << RESET;
+    bank.modifyAccount(accountId, -100);
+
+    if (bank.getAccounts().at(0)->getValue() == 75 && bank.getLiquidity() == 5)
+    {
+        std::cout << GREEN << "Test passed!\n" << RESET;
+    }
+    else
+    {
+        std::cout << RED << "Test failed!\n" << RESET;
+    }
+
+    std::cout << CYAN << "Test: ADD INT_MAX to an account...\n" << RESET;
+    bank.modifyAccount(accountId, INT_MAX);
+
+    if (bank.getAccounts().at(0)->getValue() == 75 && bank.getLiquidity() == 5)
+    {
+        std::cout << GREEN << "Test passed!\n" << RESET;
+    }
+    else
+    {
+        std::cout << RED << "Test failed!\n" << RESET;
+    }
+
+    std::cout << CYAN << "Test: Deduct INT_MIN from an account...\n" << RESET;
+    bank.modifyAccount(accountId, INT_MIN);
+
+    if (bank.getAccounts().at(0)->getValue() == 75 && bank.getLiquidity() == 5)
+    {
+        std::cout << GREEN << "Test passed!\n" << RESET;
+    }
+    else
+    {
+        std::cout << RED << "Test failed!\n" << RESET;
+    }
+    
+}
 
 void testAddMoneyViaBankOnly()
 {
@@ -71,6 +142,38 @@ void testGiveLoan(void)
     else
     {
         std::cout << GREEN << "Test passed!\n" << RESET;
+    }
+
+    // Test to loan less than 0
+    std::cout << CYAN << "Test: Bank cannot give a loan less than 0...\n" << RESET;
+    Bank bank3;
+    bank3.createAccount();
+    bank3.modifyAccount(bank3.getAccounts().at(0)->getId(), 1000);
+    bank3.giveLoan(bank3.getAccounts().at(0)->getId(), -50);
+
+    if (bank3.getAccounts().at(0)->getValue() == 1000 && bank3.getLiquidity() == 0)
+    {
+        std::cout << GREEN << "Test passed!\n" << RESET;
+    }
+    else
+    {
+        std::cout << RED << "Test failed!\n" << RESET;
+    }
+
+    // Test to loan > Int_max
+    std::cout << CYAN << "Test: Bank cannot give a loan greater than INT_MAX...\n" << RESET;
+    Bank bank4;
+    bank4.createAccount();
+    bank4.modifyAccount(bank4.getAccounts().at(0)->getId(), 1000);
+    bank4.giveLoan(bank4.getAccounts().at(0)->getId(), INT_MAX);
+
+    if (bank4.getAccounts().at(0)->getValue() == 1000 && bank4.getLiquidity() == 0)
+    {
+        std::cout << GREEN << "Test passed!\n" << RESET;
+    }
+    else
+    {
+        std::cout << RED << "Test failed!\n" << RESET;
     }
 }
 
@@ -165,6 +268,222 @@ void testBankReceive5Percent()
     }
 }
 
+
+//Test delete accounts
+void testDeleteAccounts()
+{
+    std::cout << CYAN << "Test: Deleting accounts...\n" << RESET;
+    {
+        Bank bank;
+        bank.createAccount();
+        bank.createAccount();
+        bank.deleteAccount(bank.getAccounts().at(0)->getId());
+
+        if (bank.getAccounts().size() == 1)
+        {
+            std::cout << GREEN << "Test passed! Account deleted successfully.\n" << RESET;
+        }
+        else
+        {
+            std::cout << RED << "Test failed! Account not deleted.\n" << RESET;
+        }
+    }
+
+    {
+        std::cout << YELLOW << "Test: Delete 1000 accounts...\n" << RESET;
+        Bank bank;
+        for (int i = 0; i < 1000; ++i)
+        {
+            bank.createAccount();
+        }
+
+        for (int i = 0; i < 1000; ++i)
+        {
+            bank.deleteAccount(bank.getAccounts().at(0)->getId());
+        }
+
+        if (bank.getAccounts().empty())
+        {
+            std::cout << GREEN << "Test passed! All accounts deleted successfully.\n" << RESET;
+        }
+        else
+        {
+            std::cout << RED << "Test failed! Not all accounts were deleted.\n" << RESET;
+        }
+    }
+
+    {
+        std::cout << YELLOW << "Test: Delete 1000000 accounts...\n" << RESET;
+        Bank bank;
+        try
+        {
+            for (long i = 0; i < 1000000; ++i)
+            {
+                bank.createAccount();
+            }
+
+            for (long i = 0; i < 1000000; ++i)
+            {
+                bank.deleteAccount(bank.getAccounts().at(0)->getId());
+            }
+
+            if (bank.getAccounts().empty())
+            {
+                std::cout << GREEN << "Test passed! All accounts deleted successfully.\n" << RESET;
+            }
+            else
+            {
+                std::cout << RED << "Test failed! Not all accounts were deleted.\n" << RESET;
+            }
+        }
+        catch (const std::exception &e)
+        {
+            std::cout << RED << "Test failed! Exception: " << e.what() << "\n" << RESET;
+        }
+        catch (...)
+        {
+            std::cout << RED << "Test failed! Unknown exception.\n" << RESET;
+        }
+    }
+}
+
+// Test account ID uniqueness
+void testAccountIDUniqueness()
+{
+    std::cout << CYAN << "Test: Account IDs must be unique...\n" << RESET;
+    
+    {
+        Bank bank;
+        bank.createAccount();
+        bank.createAccount();
+
+        int id1 = bank.getAccounts().at(0)->getId();
+        int id2 = bank.getAccounts().at(1)->getId();
+
+        if (id1 != id2)
+        {
+            std::cout << GREEN << "Test passed! Account IDs are unique.\n" << RESET;
+        }
+        else
+        {
+            std::cout << RED << "Test failed! Account IDs are not unique.\n" << RESET;
+        }
+    }
+
+    {
+        Bank bank;
+        for (int i = 0; i < 1000; ++i)
+        {
+            bank.createAccount();
+        }
+
+        std::vector<int> ids;
+        bool unique = true;
+
+        for (int i = 0; i < 1000; ++i)
+        {
+            int id = bank.getAccounts().at(i)->getId();
+            if (std::find(ids.begin(), ids.end(), id) != ids.end())
+            {
+                unique = false;
+                break;
+            }
+            ids.push_back(id);
+        }
+
+        if (unique)
+        {
+            std::cout << GREEN << "Test passed! Account IDs are unique up to 1000.\n" << RESET;
+        }
+        else
+        {
+            std::cout << RED << "Test failed! Account IDs are not unique.\n" << RESET;
+        }
+    }
+
+    {
+        Bank bank;
+        try
+        {
+            for (long i = 0; i < static_cast<long>(INT_MAX) + 1; ++i)
+            {
+                bank.createAccount();
+            }
+            std::cout << GREEN << "Test passed! Created more than INT_MAX accounts.\n" << RESET;
+        }
+        catch (const std::exception &e)
+        {
+            std::cout << RED << "Test failed! Exception: " << e.what() << "\n" << RESET;
+        }
+        catch (...)
+        {
+            std::cout << RED << "Test failed! Unknown exception.\n" << RESET;
+        }
+
+        // Verify the uniqueness of all IDs up to INT_MAX
+        bool unique = true;
+        std::set<int> ids;
+        for (int i = 0; i < INT_MAX; ++i)
+        {
+            int id = bank.getAccounts().at(i)->getId();
+            if (ids.find(id) != ids.end())
+            {
+                unique = false;
+                break;
+            }
+            ids.insert(id);
+        }
+
+        if (unique)
+        {
+            std::cout << GREEN << "Test passed! Account IDs are unique up to INT_MAX.\n" << RESET;
+        }
+        else
+        {
+            std::cout << RED << "Test failed! Account IDs are not unique.\n" << RESET;
+        }
+    }
+}
+
+void testCreateLotsOfAccounts()
+{
+    std::cout << CYAN << "Test: Creating a large number of accounts...\n" << RESET;
+    Bank bank;
+
+    // Test creating 1000 accounts
+    for (int i = 0; i < 1000; ++i)
+    {
+        bank.createAccount();
+    }
+    if (bank.getAccounts().size() == 1000)
+    {
+        std::cout << GREEN << "Test passed! Created 1000 accounts.\n" << RESET;
+    }
+    else
+    {
+        std::cout << RED << "Test failed! Did not create 1000 accounts.\n" << RESET;
+    }
+
+    // Test creating more than INT_MAX accounts
+    try
+    {
+        for (long i = 0; i < static_cast<long>(INT_MAX) + 1; ++i)
+        {
+            bank.createAccount();
+        }
+        std::cout << GREEN << "Test passed! Created more than INT_MAX accounts.\n" << RESET;
+    }
+    catch (const std::exception &e)
+    {
+        std::cout << RED << "Test failed! Exception: " << e.what() << "\n" << RESET;
+    }
+    catch (...)
+    {
+        std::cout << RED << "Test failed! Unknown exception.\n" << RESET;
+    }
+}
+
+
 int main(void)
 {
     std::cout << PURPLE << "Running tests...\n" << RESET;
@@ -174,12 +493,18 @@ int main(void)
     tester.testAccount();
     tester.testBank(); */
     
+    // this test stress tests probablytake too long to run and fills up computer memory
+    /* testCreateLotsOfAccounts();
+    testAccountIDUniqueness();
+    testDeleteAccounts(); */
+
     testBankReceive5Percent();
     testUniqueAccountIds();
     testAccountModificationProtection();
     testCreateDeleteModifyAccounts();
     testGiveLoan();
     testAddMoneyViaBankOnly();
+    testAddMoneyAndDeductMoney();
     
     return (0);
 }

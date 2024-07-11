@@ -14,6 +14,7 @@
 # define BANK_HPP
 
 #include <vector>
+#include <climits>
 #include "Account.hpp"
 
 class Bank

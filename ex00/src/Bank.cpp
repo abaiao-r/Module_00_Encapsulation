@@ -63,10 +63,18 @@ int Bank::getLiquidity(void) const
 
 void Bank::createAccount(void)
 {
-    Account *newAccount = new Account();
-    this->clientAccounts.push_back(newAccount);
-    std::cout << GREEN << "Account " << newAccount->getId() << " created" << RESET << std::endl;
+    try
+    {
+        Account *newAccount = new Account();
+        this->clientAccounts.push_back(newAccount);
+        std::cout << GREEN << "Account " << newAccount->getId() << " created" << RESET << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << RED << "Error: Account creation failed" << RESET << std::endl;
+    }
 }
+
 
 void Bank::deleteAccount(int id)
 {
@@ -89,12 +97,20 @@ void Bank::modifyAccount(int id, int amount)
     {
         if ((*it)->getId() == id)
         {
-            int bankFee = amount * 0.05;
-            int netAmount = amount - bankFee;
-            (*it)->addValue(netAmount);
-            this->liquidity += bankFee;
-            std::cout << GREEN << "Account " << id << " modified with " << amount << ". The net amount is " << netAmount << " and the bank fee is " << bankFee << RESET << std::endl;
-            return;
+            if (amount < 0)
+            {
+                (*it)->deductValue(amount);
+                std::cout << GREEN << "Account " << id << " modified with " << amount << RESET << std::endl;
+                return;
+            } else if (amount >= 0)
+            {
+                int bankFee = amount * 0.05;
+                int netAmount = amount - bankFee;
+                (*it)->addValue(netAmount);
+                this->liquidity += bankFee;
+                std::cout << GREEN << "Account " << id << " modified with " << amount << ". The net amount is " << netAmount << " and the bank fee is " << bankFee << RESET << std::endl;
+                return;
+            }
         }
     }
     std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
@@ -107,6 +123,18 @@ void Bank::giveLoan(int id, int amount)
     if (liquidity < amount)
     {
         std::cout << RED << "Bank has insufficient liquidity" << RESET << std::endl;
+        return;
+    } else if (amount < 0)
+    {
+        std::cout << RED << "Error: Cannot grant a negative loan" << RESET << std::endl;
+        return;
+    } else if (amount == 0)
+    {
+        std::cout << RED << "Error: Cannot grant a loan of 0" << RESET << std::endl;
+        return;
+    } else if (amount > INT_MAX)
+    {
+        std::cout << RED << "Error: Cannot grant a loan greater than INT_MAX" << RESET << std::endl;
         return;
     }
 
