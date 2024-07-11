@@ -122,8 +122,6 @@ void Bank::modifyAccount(int id, int amount)
                 }
                 catch (std::exception &e)
                 {
-                    // write a error message to the standard error output stream
-                    std::cerr << RED << "Error: Account " << id << " value overflow or underflow" << RESET << std::endl;
                     return;
                 }
                 this->liquidity += bankFee;
