@@ -21,9 +21,9 @@ Bank::Bank(void) : liquidity(0)
 // Copy constructor
 Bank::Bank(const Bank &src) : liquidity(src.liquidity)
 {
-    for (std::vector<Account *>::const_iterator it = src.clientAccounts.begin(); it != src.clientAccounts.end(); it++)
+    for (std::map<int, Account *>::const_iterator it = src.clientAccounts.begin(); it != src.clientAccounts.end(); it++)
     {
-        this->clientAccounts.push_back(new Account(**it));
+        this->clientAccounts[it->first] = new Account(*(it->second));
     }
 }
 
@@ -32,15 +32,17 @@ Bank &Bank::operator=(const Bank &src)
 {
     if (this != &src)
     {
-        this->liquidity = src.liquidity;
-        for (std::vector<Account *>::iterator it = this->clientAccounts.begin(); it != this->clientAccounts.end(); it++)
+        liquidity = src.liquidity;
+        // Delete existing accounts
+        for (std::map<int, Account *>::iterator it = clientAccounts.begin(); it != clientAccounts.end(); ++it)
         {
-            delete *it;
+            delete it->second;
         }
-        this->clientAccounts.clear();
-        for (std::vector<Account *>::const_iterator it = src.clientAccounts.begin(); it != src.clientAccounts.end(); it++)
+        clientAccounts.clear();
+        // Copy new accounts
+        for (std::map<int, Account *>::const_iterator it = src.clientAccounts.begin(); it != src.clientAccounts.end(); ++it)
         {
-            this->clientAccounts.push_back(new Account(**it));
+            clientAccounts[it->first] = new Account(*(it->second));
         }
     }
     return (*this);
@@ -49,9 +51,9 @@ Bank &Bank::operator=(const Bank &src)
 // Destructor
 Bank::~Bank(void)
 {
-    for (std::vector<Account *>::iterator it = this->clientAccounts.begin(); it != this->clientAccounts.end(); it++)
+    for (std::map<int, Account *>::iterator it = clientAccounts.begin(); it != clientAccounts.end(); ++it)
     {
-        delete *it;
+        delete it->second;
     }
     this->clientAccounts.clear(); // Clear the vector
 }
@@ -66,7 +68,7 @@ void Bank::createAccount(void)
     try
     {
         Account *newAccount = new Account();
-        this->clientAccounts.push_back(newAccount);
+        this->clientAccounts[newAccount->getId()] = newAccount;
         std::cout << GREEN << "Account " << newAccount->getId() << " created" << RESET << std::endl;
     }
     catch (std::exception &e)
@@ -78,59 +80,101 @@ void Bank::createAccount(void)
 
 void Bank::deleteAccount(int id)
 {
-    for (std::vector<Account *>::iterator it = this->clientAccounts.begin(); it != this->clientAccounts.end(); it++)
+    std::map<int, Account *>::iterator it = this->clientAccounts.find(id);
+    if (it != this->clientAccounts.end())
     {
-        if ((*it)->getId() == id)
-        {
-            std::cout << YELLOW << "Account " << id << " deleted" << RESET << std::endl;
-            delete *it;
-            this->clientAccounts.erase(it);
-            return;
-        }
+        std::cout << YELLOW << "Account " << id << " deleted" << RESET << std::endl;
+        delete it->second;
+        this->clientAccounts.erase(it);
+        return;
     }
     std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
 }
 
-void Bank::modifyAccount(int id, int amount)
-{
-    for (std::vector<Account *>::iterator it = this->clientAccounts.begin(); it != this->clientAccounts.end(); it++)
-    {
-        if ((*it)->getId() == id)
-        {
 
-            if (amount < 0)
-            {
-                try
-                {
-                    (*it)->deductValue(amount);
-                }
-                catch (std::exception &e)
-                {
-                    // write a error message to the standard error output stream
-                    std::cerr << RED << "Error: Account " << id << " value overflow or underflow" << RESET << std::endl;
-                    return;
-                }
-                std::cout << GREEN << "Account " << id << " modified with " << amount << RESET << std::endl;
-                return;
-            } else if (amount >= 0)
-            {
-                int bankFee = amount * 0.05;
-                int netAmount = amount - bankFee;
-                try
-                {
-                    (*it)->addValue(netAmount);
-                }
-                catch (std::exception &e)
-                {
-                    return;
-                }
-                this->liquidity += bankFee;
-                std::cout << GREEN << "Account " << id << " modified with " << amount << ". The net amount is " << netAmount << " and the bank fee is " << bankFee << RESET << std::endl;
-                return;
-            }
+void Bank::deposit(int id, int amount)
+{
+    try {
+        if (amount < 0)
+        {
+            throw std::invalid_argument("Error: Cannot deposit a negative amount");
+        }
+        else if (amount == 0)
+        {
+            throw std::invalid_argument("Error: Cannot deposit an amount of 0");
+        }
+        else if (amount > INT_MAX)
+        {
+            throw std::invalid_argument("Error: Cannot deposit an amount greater than INT_MAX");
         }
     }
+    catch (std::exception &e)
+    {
+        std::cerr << YELLOW << e.what() << RESET << std::endl;
+        return;
+    }
+    std::map<int, Account *>::iterator it = this->clientAccounts.find(id);
+    if (it != this->clientAccounts.end())
+    {
+        int bankFee = amount * 0.05;
+        int netAmount = amount - bankFee;
+        try
+        {
+            it->second->addValue(netAmount);
+        }
+        catch (std::exception &e)
+        {
+            std::cerr << YELLOW << e.what() << RESET << std::endl;
+            return;
+        }
+        this->liquidity += bankFee;
+        
+        std::cout << GREEN << "Deposit of " << amount << " made to account " << id << RESET << std::endl;
+        return;    
+    }
     std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
+}
+
+
+void Bank::withdraw(int id, int amount)
+{
+    try {
+        if (amount < 0)
+        {
+            throw std::invalid_argument("Error: Cannot withdraw a negative amount");
+        }
+        else if (amount == 0)
+        {
+            throw std::invalid_argument("Error: Cannot withdraw an amount of 0");
+        }
+        else if (amount > INT_MAX)
+        {
+            throw std::invalid_argument("Error: Cannot withdraw an amount greater than INT_MAX");
+        }
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << YELLOW << e.what() << RESET << std::endl;
+        return;
+    }
+    std::map<int, Account *>::iterator it = this->clientAccounts.find(id);
+    if (it != clientAccounts.end())
+    {
+        try
+        {
+            it->second->deductValue(amount);
+        }
+        catch (std::exception &e)
+        {
+            std::cerr << YELLOW << e.what() << RESET << std::endl;
+            return;
+        }
+        std::cout << GREEN << "Withdrawal of " << amount << " made from account " << id << RESET << std::endl;
+    }
+    else
+    {
+        std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
+    }
 }
 
 void Bank::giveLoan(int id, int amount)
@@ -155,39 +199,55 @@ void Bank::giveLoan(int id, int amount)
         return;
     }
 
-    for (std::vector<Account *>::iterator it = this->clientAccounts.begin(); it != this->clientAccounts.end(); it++)
+    std::map<int, Account *>::iterator it = this->clientAccounts.find(id);
+    if (it != this->clientAccounts.end())
     {
-        if ((*it)->getId() == id)
-        {
-            (*it)->addValue(amount);
-            this->liquidity -= amount;
-            std::cout << GREEN << "Loan of " << amount << " granted to account " << id << RESET << std::endl;
-            return;
-        }
+        it->second->addValue(amount);
+        this->liquidity -= amount;
+        std::cout << GREEN << "Loan of " << amount << " granted to account " << id << RESET << std::endl;
+        return;
     }
+
     std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
 }
 
-const std::vector<const Account *> &Bank::getAccounts(void) const
+const std::map<int, const Bank::Account *> Bank::getAccounts(void) const
 {
-    // reinterpret_cast is used to convert a pointer to any object type into a pointer to any other type
-    // in this case we are converting a pointer to a vector of Account pointers into a pointer to a vector of const Account pointers
-    // this is done to prevent the vector from being modified by the caller
-    // ex: if the caller tries to push_back a new Account into the vector, the compiler will throw an error. 
-    // ex: bank.getAccounts().push_back(new Account());
-    // ex: if the caller tries to modify the value of an Account in the vector, the compiler will throw an error 
-    // ex: bank.getAccounts().at(0)->addValue(100);
-    return reinterpret_cast<const std::vector<const Account *> &>(this->clientAccounts);
+    std::map<int, const Account *> constAccounts;
+    for (std::map<int, Account *>::const_iterator it = clientAccounts.begin(); it != clientAccounts.end(); ++it)
+    {
+        constAccounts[it->first] = it->second;
+    }
+    return (constAccounts);
 }
+
+const Bank::Account &Bank::operator[](int id) const
+{
+    //Use map's find method to locate the account by ID
+    std::map<int, Account *>::const_iterator it = clientAccounts.find(id);
+    
+    // Check if the account was found
+    if (it != clientAccounts.end())
+    {
+        // Return the account object
+        return *(it->second);
+    }
+    
+    // If account with the given ID is not found, throw an exception
+    throw std::out_of_range("Account ID not found");
+}
+
 
 void Bank::displayAccounts(void) const
 {
-    for (std::vector<Account *>::const_iterator it = this->clientAccounts.begin(); it != this->clientAccounts.end(); it++)
+    std::map<int, Account *>::const_iterator it;
+    for (it = this->clientAccounts.begin(); it != this->clientAccounts.end(); it++)
     {
-        std::cout << **it << std::endl;
+        std::cout << "Account " << it->first << " : " << it->second->getValue() << std::endl;
     }
 }
 
+// call this: std::cout << bank << std::endl;
 std::ostream &operator<<(std::ostream &p_os, const Bank &p_bank)
 {
     p_os << "Bank informations : " << std::endl;

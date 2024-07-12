@@ -10,28 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Account.hpp"
+#include "../includes/Bank.hpp"
 #include "../includes/colours.hpp"
 
-int Account::nextId = 0;
+int Bank::Account::nextId = 0;
 
-Account::Account(void) : id(nextId), value(0)
+// how to call this constructor? Bank::Account account;
+Bank::Account::Account(void) : id(nextId), value(0)
 {
     if (nextId > INT_MAX)
     {
-        std::cerr << RED << "Error: Account ID overflow" << RESET << std::endl;
-        throw std::exception();
+        throw std::runtime_error("Error: Account ID overflow due to too many accounts");
     }
     nextId++;
 }
 
 // Copy constructor
-Account::Account(const Account &src) : id(src.id), value(src.value)
+Bank::Account::Account(const Account &src) : id(src.id), value(src.value)
 {
 }
 
 // Assignment operator
-Account &Account::operator=(const Account &src)
+Bank::Account &Bank::Account::operator=(const Account &src)
 {
     if (this != &src)
     {
@@ -41,91 +41,56 @@ Account &Account::operator=(const Account &src)
     return (*this);
 }
 
-Account::~Account(void)
+Bank::Account::~Account(void)
 {
     std::cout << YELLOW << "Account " << this->id << " closed" << RESET << std::endl;
 }
 
-int Account::getId(void) const
+int Bank::Account::getId(void) const
 {
     return (this->id);
 }
 
-int Account::getValue(void) const
+int Bank::Account::getValue(void) const
 {
     return (this->value);
 }
 
-void Account::addValue(int amount)
+void Bank::Account::addValue(int amount)
 {
-    if (amount < 0)
-    {
-        std::cerr << RED << "Error: Cannot credit account " << this->id << " with a negative amount" << RESET << std::endl;
-        return;
-    }
-    try
-    {
-        if (this->value + amount > INT_MAX)
-        {
-            throw std::exception();
-        }
-    }
-    catch (std::exception &e)
-    {
-        std::cerr << RED << "Error: Account " << this->id << " value overflow" << RESET << std::endl;
-        return;
-    }
     // Check for underflow
-    if (amount < 0 && this->value < INT_MIN - amount) {
-        std::cerr << RED << "Error: Account " << this->id << " value underflow" << RESET << std::endl;
-        throw std::exception();
+    if (amount < 0 && this->value < INT_MIN - amount)
+    {
+        throw std::runtime_error("Error: Account value underflow");
     }
     // Check for overflow
-    if (amount > 0 && this->value > INT_MAX - amount) {
-        std::cerr << RED << "Error: Account " << this->id << " value overflow" << RESET << std::endl;
-        throw std::exception();
+    if (amount > 0 && this->value > INT_MAX - amount)
+    {
+        throw std::overflow_error("Error: Account value overflow");
     }
     this->value += amount;
     std::cout << GREEN << "Account " << this->id << " credited with " << amount << RESET << std::endl;
 }
 
-void Account::deductValue(int amount)
+void Bank::Account::deductValue(int amount)
 {
-    if (amount > 0)
+    // check if account has sufficient funds
+    if (this->value < amount)
     {
-        std::cerr << RED << "Error: Cannot debit account " << this->id << " with a positive amount" << RESET << std::endl;
-        return;
+        throw std::runtime_error("Error: Account has insufficient funds");
     }
-    try
-    {
-        if (this->value + amount < 0)
-        {
-            throw std::exception();
-        }
-    }
-    catch (std::exception &e)
-    {
-        std::cerr << RED << "Error: Account " << this->id << " has insufficient funds" << RESET << std::endl;
-        return;
-    }
-    
     // Check for underflow
-    if (amount < 0 && this->value < INT_MIN - amount) {
-        std::cerr << RED << "Error: Account " << this->id << " value underflow" << RESET << std::endl;
-        throw std::exception();
+    if (amount < 0 && this->value < INT_MIN - amount)
+    {
+        throw std::runtime_error("Error: Account value underflow");
     }
     // Check for overflow
-    if (amount > 0 && this->value > INT_MAX - amount) {
-        std::cerr << RED << "Error: Account " << this->id << " value overflow" << RESET << std::endl;
-        throw std::exception();
+    if (amount > 0 && this->value > INT_MAX - amount)
+    {
+        throw std::runtime_error("Error: Account value overflow");
     }
-    this->value += amount;
+    this->value -= amount;
     std::cout << RED << "Account " << this->id << " debited with " << amount << RESET << std::endl;
 }
 
-std::ostream &operator<<(std::ostream &p_os, const Account &p_account)
-{
-    p_os << "Account " << p_account.getId() << " has " << p_account.getValue() << " units";
-    return (p_os);
-}
 

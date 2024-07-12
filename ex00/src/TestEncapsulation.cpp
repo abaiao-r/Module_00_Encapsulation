@@ -12,26 +12,55 @@
 
 #include "../includes/TestEncapsulation.hpp"
 
+
+/* // Test the Account class to ensure encapsulation
 void TestEncapsulation::testAccount()
 {
-    std::cout << CYAN << "Testing Account class if it is encapsulated" << RESET << std::endl;
+    Bank bank;
+    bank.createAccount();
+    bank.createAccount();
 
-    Account account;
+    std::cout << YELLOW << "Testing Account class" << RESET << std::endl;
+    std::cout << YELLOW << "---------------------" << RESET << std::endl;
 
-    // The following lines should cause compilation errors if the attributes are private
-    // Uncommenting these lines should cause the code to fail to compile
-    // account.id = 1;       // Should cause compilation error
-    // account.value = 100;  // Should cause compilation error
+    std::cout << YELLOW << "Testing private member variables" << RESET << std::endl;
+    std::cout << "Account ID: " << bank.clientAccounts[0]->getId() << std::endl;
+    std::cout << "Account Value: " << bank.clientAccounts[0]->getValue() << std::endl;
 
+    std::cout << YELLOW << "Testing private member functions" << RESET << std::endl;
+    bank.deposit(bank.clientAccounts[0]->getId(), 100);
+    bank.deposit(bank.clientAccounts[0]->getId(), 100);
+
+    std::cout << "Account Value: " << bank.clientAccounts[0]->getValue() << std::endl;
+    bank.deleteAccount(bank.clientAccounts[0]->getId());
+    bank.deleteAccount(bank.clientAccounts[1]->getId());
+
+    std::cout << YELLOW << "Testing private member variables after deletion" << RESET << std::endl;
+    std::cout << "Account ID: " << bank.clientAccounts[0]->getId() << std::endl;
+    std::cout << "Account Value: " << bank.clientAccounts[0]->getValue() << std::endl;
 }
 
+// Test the Bank class to ensure encapsulation
 void TestEncapsulation::testBank()
 {
-    std::cout << CYAN << "Testing Bank class if it is encapsulated" << RESET << std::endl;
-    
     Bank bank;
-    // The following lines should cause compilation errors if the attributes are private
-    // Uncommenting these lines should cause the code to fail to compile
-    // bank.liquidity = 1000;  // Should cause compilation error
-    // bank.clientAccounts.push_back(new Account());  // Should cause compilation error
-}
+    bank.createAccount();
+    bank.createAccount();
+
+    std::cout << YELLOW << "Testing Bank class" << RESET << std::endl;
+    std::cout << YELLOW << "---------------------" << RESET << std::endl;
+
+    std::cout << YELLOW << "Testing private member variables" << RESET << std::endl;
+    std::cout << "Bank Liquidity: " << bank.getLiquidity() << std::endl;
+
+    std::cout << YELLOW << "Testing private member functions" << RESET << std::endl;
+    bank.deposit(bank.clientAccounts[0]->getId(), 100);
+    bank.deposit(bank.clientAccounts[0]->getId(), 100);
+
+    std::cout << "Bank Liquidity: " << bank.getLiquidity() << std::endl;
+    bank.deleteAccount(bank.clientAccounts[0]->getId());
+    bank.deleteAccount(bank.clientAccounts[1]->getId());
+
+    std::cout << YELLOW << "Testing private member variables after deletion" << RESET << std::endl;
+    std::cout << "Bank Liquidity: " << bank.getLiquidity() << std::endl;
+} */
