@@ -243,7 +243,14 @@ void testAccountModificationProtection()
 {
     std::cout << CYAN << "Test: Account attributes are not modifiable from the outside...\n" << RESET;
     
-    // create account without going through bank
+    // create account without going through bank class and try to modify it
+    // should not be possible and give an error of compilation
+/*     Account account;
+    account.id = 1;
+    account.value = 100;
+    account.addValue(100);
+    account.deductValue(50);
+ */
 
 }
 
@@ -297,7 +304,7 @@ void testDeleteAccounts()
         bank.createAccount();
         bank.createAccount();
         std::cout << bank << std::endl;
-        bank.deleteAccount(bank.getAccounts().at(0)->getId());
+        bank.deleteAccount(bank[i].getId());
         std::cout << bank << std::endl;
 
         if (bank.getAccounts().size() == 1)
@@ -320,7 +327,7 @@ void testDeleteAccounts()
 
         for (int i = 0; i < 1000; ++i)
         {
-            bank.deleteAccount(bank.getAccounts().at(0)->getId());
+            bank.deleteAccount(bank[i].getId());
         }
 
         if (bank.getAccounts().empty())
@@ -345,7 +352,7 @@ void testDeleteAccounts()
 
             for (long i = 0; i < 1000000; ++i)
             {
-                bank.deleteAccount(bank.getAccounts().at(0)->getId());
+                bank.deleteAccount(bank[i].getId());
             }
 
             if (bank.getAccounts().empty())
@@ -375,24 +382,6 @@ void testAccountIDUniqueness()
     
     {
         Bank bank;
-        bank.createAccount();
-        bank.createAccount();
-
-        int id1 = bank.getAccounts().at(0)->getId();
-        int id2 = bank.getAccounts().at(1)->getId();
-
-        if (id1 != id2)
-        {
-            std::cout << GREEN << "Test passed! Account IDs are unique.\n" << RESET;
-        }
-        else
-        {
-            std::cout << RED << "Test failed! Account IDs are not unique.\n" << RESET;
-        }
-    }
-
-    {
-        Bank bank;
         for (int i = 0; i < 1000; ++i)
         {
             bank.createAccount();
@@ -403,7 +392,7 @@ void testAccountIDUniqueness()
 
         for (int i = 0; i < 1000; ++i)
         {
-            int id = bank.getAccounts().at(i)->getId();
+            int id = bank[i].getId();
             if (std::find(ids.begin(), ids.end(), id) != ids.end())
             {
                 unique = false;
@@ -446,7 +435,7 @@ void testAccountIDUniqueness()
         std::set<int> ids;
         for (int i = 0; i < INT_MAX; ++i)
         {
-            int id = bank.getAccounts().at(i)->getId();
+            int id = bank[i].getId();
             if (ids.find(id) != ids.end())
             {
                 unique = false;
