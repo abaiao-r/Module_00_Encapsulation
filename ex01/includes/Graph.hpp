@@ -6,7 +6,7 @@
 /*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 21:42:41 by andrefranci       #+#    #+#             */
-/*   Updated: 2024/07/13 01:34:58 by andrefranci      ###   ########.fr       */
+/*   Updated: 2024/07/13 10:38:08 by andrefranci      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ class Graph
         void addPoint(float x, float y);
         void addLinesFromPoints();
         void displayPoints(void) const;
+        void displayLines(void) const;
+        void displayLinesWithPoints(void) const;
         void readPointsFromFile(const std::string& filename);
         //void drawToPNG(const std::string& filename) const;
 };
