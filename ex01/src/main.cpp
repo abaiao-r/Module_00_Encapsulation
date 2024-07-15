@@ -6,7 +6,7 @@
 /*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 21:39:57 by andrefranci       #+#    #+#             */
-/*   Updated: 2024/07/13 11:20:41 by andrefranci      ###   ########.fr       */
+/*   Updated: 2024/07/15 18:02:53 by andrefranci      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
         return (1);
     }
 
-    Graph graph(20, 70);
+    Graph graph;
 
     try
     {
@@ -45,6 +45,8 @@ int main(int argc, char **argv)
     std::cout << "\n\nGraph with points('o') and lines('x'):\n" << std::endl;
     graph.displayLinesWithPoints();
 
+
+    graph.drawToPNG("graph.png");
     // Graph graph(10, 10);
 /*     Graph graph(5, 5);
 

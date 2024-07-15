@@ -6,7 +6,7 @@
 /*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 21:42:41 by andrefranci       #+#    #+#             */
-/*   Updated: 2024/07/13 10:38:08 by andrefranci      ###   ########.fr       */
+/*   Updated: 2024/07/15 18:55:06 by andrefranci      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <stdexcept>
 #include <cstdlib> // for abs
 #include <cctype>  // for std::isspace
+#include <string>
+#include <algorithm>
 #include "Vector2.hpp"
 
 class Graph
@@ -33,8 +35,18 @@ class Graph
         void addValidPointsFromFile(const std::string& filename);
         bool validatePointFormat(const std::string& line, int lineNum, float& x, float& y) const;
         void addLine(float x1, float y1, float x2, float y2);
+        // static because it doesn't depend on the object.
+        static bool compareX(const Vector2& a, const Vector2& b);
+        void setSize(void);
+
+        // PNG-related private methods
+        // void writePNGHeader(std::ofstream& file) const;
+        // void writePNGData(std::ofstream& file, const std::vector<std::vector<unsigned char> >& image) const;
+        // unsigned int crc32(unsigned char* buf, unsigned int len) const;
+        // void writeChunk(std::ofstream& file, const char* type, const unsigned char* data, unsigned int length) const;
 
     public:
+        Graph(void);
         Graph(float width, float height);
         ~Graph(void);
         Graph(const Graph &other);
@@ -42,10 +54,12 @@ class Graph
 
         void addPoint(float x, float y);
         void addLinesFromPoints();
-        void displayPoints(void) const;
-        void displayLines(void) const;
-        void displayLinesWithPoints(void) const;
+        void displayPoints(void);
+        void displayLines(void);
+        void displayLinesWithPoints(void);
         void readPointsFromFile(const std::string& filename);
+        void sortPointsByX();
+
         //void drawToPNG(const std::string& filename) const;
 };
 
