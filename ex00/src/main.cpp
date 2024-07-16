@@ -19,6 +19,14 @@
 #include <climits>
 #include <set>
 
+/**
+ * @brief This function tests the functionality of adding and deducting money from an account.
+ * 
+ * It creates a bank object, creates an account, and performs various operations such as depositing and withdrawing money.
+ * The function checks if the account values and bank liquidity are updated correctly after each operation.
+ * 
+ * @return void
+ */
 void    testAddMoneyAndDeductMoney()
 {
     std::cout << CYAN << "Test: Adding 100 to an account...\n" << RESET;
@@ -103,6 +111,18 @@ void    testAddMoneyAndDeductMoney()
     
 }
 
+/**
+ * @brief Test case for adding money to an account via the bank only.
+ * 
+ * This test verifies that money can only be added to an account through the bank class.
+ * It checks if direct modification of the account or adding money without using the bank is not allowed.
+ * The test creates a bank, creates an account, and attempts to add money directly to the account.
+ * It then checks if the account value and bank liquidity are updated correctly.
+ * If the test passes, it prints a success message; otherwise, it prints a failure message.
+ * 
+ * @note This test indirectly checks the encapsulation of the account class by only allowing bank modification.
+ * If encapsulation is broken, manual setting of the account value would be possible.
+ */
 void testAddMoneyViaBankOnly()
 {
     std::cout << CYAN << "Test: Adding money to an account can only be done via the bank...\n" << RESET;
@@ -127,6 +147,18 @@ void testAddMoneyViaBankOnly()
     // If encapsulation is broken, manual setting would be possible
 }
 
+/**
+ * @brief This function tests the functionality of giving a loan in a Bank.
+ * 
+ * It creates a Bank object, creates an account, deposits funds into the account,
+ * and then gives a loan to the account. It checks if the loan is given correctly
+ * and if the bank's liquidity is updated accordingly.
+ * 
+ * It also tests scenarios where the loan amount exceeds the bank's funds, where
+ * the loan amount is less than 0, and where the loan amount is greater than INT_MAX.
+ * 
+ * @return void
+ */
 void testGiveLoan(void)
 {
     std::cout << CYAN << "Test: Bank can give a loan within its funds...\n" << RESET;
@@ -201,6 +233,13 @@ void testGiveLoan(void)
     }
 }
 
+/**
+ * @brief This function tests the functionality of creating, deleting, and modifying accounts in a Bank.
+ * 
+ * It creates a Bank object, creates two accounts, deletes one account, and modifies the remaining account.
+ * The function then checks if the operations were successful by comparing the initial and final sizes of the accounts,
+ * and checking the values of the modified account and the bank's liquidity.
+ */
 void testCreateDeleteModifyAccounts()
 {
     std::cout << CYAN << "Test: Bank can create, delete, and modify accounts...\n" << RESET;
@@ -239,6 +278,12 @@ void testCreateDeleteModifyAccounts()
     }
 }
 
+/**
+ * @brief Test the protection of account attributes from modification.
+ * 
+ * This function creates an account without going through the bank class and tries to modify its attributes.
+ * It verifies that the account attributes cannot be modified from the outside and should result in a compilation error.
+ */
 void testAccountModificationProtection()
 {
     std::cout << CYAN << "Test: Account attributes are not modifiable from the outside...\n" << RESET;
@@ -254,6 +299,12 @@ void testAccountModificationProtection()
 
 }
 
+/**
+ * @brief Test case to check if accounts have unique IDs.
+ * 
+ * This function creates two accounts in a bank and checks if their IDs are unique.
+ * If the IDs are unique, the test passes; otherwise, the test fails.
+ */
 void testUniqueAccountIds()
 {
     std::cout << CYAN << "Test: Accounts must have unique IDs...\n" << RESET;
@@ -274,6 +325,13 @@ void testUniqueAccountIds()
     }
 }
 
+/**
+ * @brief This function tests if the bank receives 5% of each money inflow.
+ * 
+ * It creates a bank object, creates an account, and deposits 100 units of money into the account.
+ * Then, it checks if the bank's liquidity is 5 and if the account's value is 95.
+ * If the test passes, it prints "Test passed!", otherwise it prints "Test failed!".
+ */
 void testBankReceive5Percent()
 {
     std::cout << CYAN << "Test: Bank receives 5% of each money inflow... \n" << RESET;
@@ -295,7 +353,18 @@ void testBankReceive5Percent()
 }
 
 
-//Test delete accounts
+
+/**
+ * @brief This function tests the deletion of accounts.
+ * 
+ * It creates multiple accounts, deletes some of them, and checks if the deletion was successful.
+ * The function performs three tests:
+ * 1. Deleting a single account and checking if the account was successfully deleted.
+ * 2. Deleting 1000 accounts and checking if all accounts were deleted.
+ * 3. Deleting 1,000,000 accounts and checking if all accounts were deleted.
+ * 
+ * @return void
+ */
 void testDeleteAccounts()
 {
     std::cout << CYAN << "Test: Deleting accounts...\n" << RESET;
@@ -375,7 +444,19 @@ void testDeleteAccounts()
     }
 }
 
-// Test account ID uniqueness
+
+/**
+ * @brief Tests the uniqueness of account IDs.
+ * 
+ * This function creates multiple accounts using the `Bank` class and checks if the account IDs are unique.
+ * It performs two tests:
+ * 1. It creates 1000 accounts and verifies that the account IDs are unique up to 1000.
+ * 2. It creates more than `INT_MAX` accounts and verifies that the account IDs are unique up to `INT_MAX`.
+ * 
+ * @note This function assumes that the `Bank` class and the `Account` class have been properly implemented.
+ * 
+ * @return None.
+ */
 void testAccountIDUniqueness()
 {
     std::cout << CYAN << "Test: Account IDs must be unique...\n" << RESET;
@@ -455,6 +536,13 @@ void testAccountIDUniqueness()
     }
 }
 
+/**
+ * @brief Test function to create a large number of accounts.
+ * 
+ * This function tests the creation of a large number of accounts in a Bank object.
+ * It creates 1000 accounts and checks if the number of accounts in the Bank object is 1000.
+ * It also tests creating more than INT_MAX accounts and checks if an exception is thrown.
+ */
 void testCreateLotsOfAccounts()
 {
     std::cout << CYAN << "Test: Creating a large number of accounts...\n" << RESET;
@@ -494,6 +582,14 @@ void testCreateLotsOfAccounts()
 }
 
 
+/**
+ * @brief The main function of the program.
+ * 
+ * This function is the entry point of the program. It runs various tests related to encapsulation.
+ * The tests include testing account creation, modification, deletion, bank operations, and more.
+ * 
+ * @return 0 indicating successful execution of the program.
+ */
 int main(void)
 {
     std::cout << PURPLE << "Running tests...\n" << RESET;

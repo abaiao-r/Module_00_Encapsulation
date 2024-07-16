@@ -20,6 +20,14 @@
 #include <stdexcept>
 #include <map>
 
+/**
+ * @class Bank
+ * @brief Represents a bank that manages client accounts and transactions.
+ * 
+ * The Bank class provides functionality to create and delete accounts, deposit and withdraw funds,
+ * give loans, and retrieve information about the bank's liquidity and client accounts.
+ * It also overloads the subscript operator [] to access accounts by their ID.
+ */
 class Bank
 {
     private:
