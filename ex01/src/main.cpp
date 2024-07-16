@@ -15,8 +15,7 @@
 
 int main(int argc, char **argv)
 {
-/*     (void)argv;
-    (void)argc; */
+
     if (argc != 2)
     {
         std::cerr << "Usage: ./ex01 [filename]" << std::endl;
@@ -35,7 +34,6 @@ int main(int argc, char **argv)
         return(1);
     }
 
-    graph.addLinesFromPoints();
     std::cout << "\n\nGraph with points('o'):\n" << std::endl;
     graph.displayPoints();
 
@@ -45,17 +43,24 @@ int main(int argc, char **argv)
     std::cout << "\n\nGraph with points('o') and lines('x'):\n" << std::endl;
     graph.displayLinesWithPoints();
 
-
-    graph.drawToPNG("graph.png");
     // Graph graph(10, 10);
-/*     Graph graph(5, 5);
+    std::cout << "\n\n Test with parametric construtor \n" << std::endl;
+    Graph graph2(5, 5);
 
-    graph.addPoint(0, 0);
-    graph.addPoint(2, 2);
-    graph.addPoint(4, 2);
-    graph.addPoint(2, 4);
+    graph2.addPoint(0, 0);
+    graph2.addPoint(2, 2);
+    graph2.addPoint(4, 2);
+    graph2.addPoint(2, 4);
+    graph2.addLinesFromPoints();
 
-    graph.displayPoints(); */
+    std::cout << "\n\nGraph with points('o'):\n" << std::endl;
+    graph2.displayPoints();
+
+    std::cout << "\n\nGraph with lines('x'):\n" << std::endl;
+    graph2.displayLines();
+    
+    std::cout << "\n\nGraph with points('o') and lines('x'):\n" << std::endl;
+    graph2.displayLinesWithPoints();
     
     return (0);
 }

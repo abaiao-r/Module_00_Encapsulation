@@ -39,12 +39,12 @@ Vector2 &Vector2::operator=(const Vector2 &other)
     return (*this);
 }
 
-float Vector2::getX(void) const
+const float &Vector2::getX(void) const
 {
     return (this->x);
 }
 
-float Vector2::getY(void) const
+const float &Vector2::getY(void) const
 {
     return (this->y);
 }

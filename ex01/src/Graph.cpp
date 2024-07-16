@@ -84,14 +84,6 @@ void Graph::addPoint(float x, float y)
     {
         std::cerr << "Error: Point out of bounds" << std::endl;
     }
-    /* if (x >= 0 && y >= 0)
-    {
-        this->points.push_back(Vector2(x, y));
-    }
-    else
-    {
-        std::cerr << "Error: Point out of bounds" << std::endl;
-    } */
 }
 
 void Graph::addLine(float x1, float y1, float x2, float y2)
@@ -121,11 +113,8 @@ void Graph::addLinesFromPoints() {
     }
 }
 
-void Graph::displayLinesWithPoints()
+void Graph::displayLinesWithPoints(void) const
 {
-    // check if there is size
-    if (this->size.getX() == 0 && this->size.getY() == 0)
-        setSize();
     // Create a grid with size y+1 by x+1 initialized to '.' if x >= 10 && x < 100 print " " before x
      
     std::vector<std::vector<char> > grid(size.getY() + 1, std::vector<char>(size.getX() + 1, '.'));
@@ -198,11 +187,8 @@ void Graph::displayLinesWithPoints()
 }
 
 
-void Graph::displayPoints(void)
+void Graph::displayPoints(void) const
 {
-    // check if there is size
-    if (this->size.getX() == 0 && this->size.getY() == 0)
-        setSize();
     for (int y = static_cast<int>(this->size.getY()); y >= 0; y--)
     {
         if (y < 10)
@@ -239,11 +225,8 @@ void Graph::displayPoints(void)
     std::cout << "\n";
 }
 
-void Graph::displayLines()
+void Graph::displayLines(void) const
 {
-    // check if there is size
-    if (this->size.getX() == 0 && this->size.getY() == 0)
-        setSize();
     // Create a grid with size y+1 by x+1 initialized to '.'
     std::vector<std::vector<char> > grid(size.getY() + 1, std::vector<char>(size.getX() + 1, '.'));
 
@@ -314,20 +297,29 @@ void Graph::displayLines()
 }
 
 
-void Graph::readPointsFromFile(const std::string& filename) {
+void Graph::readPointsFromFile(const std::string& filename)
+{
     validateFile(filename);
     addValidPointsFromFile(filename);
+    this->addLinesFromPoints();
+    // check if there is size
+    if (this->size.getX() == 0 && this->size.getY() == 0)
+        setSize();
+    
 }
 
-void Graph::validateFile(const std::string& filename) {
+void Graph::validateFile(const std::string& filename)
+{
     std::ifstream infile(filename.c_str());
-    if (!infile) {
+    if (!infile)
+    {
         throw std::runtime_error("Error opening file: " + filename);
     }
 
     // Validate the file type (.txt or .csv)
     std::string extension = filename.substr(filename.find_last_of(".") + 1);
-    if (extension != "txt" && extension != "csv") {
+    if (extension != "txt" && extension != "csv")
+    {
         throw std::runtime_error("Invalid file type: " + extension);
     }
 
@@ -335,34 +327,41 @@ void Graph::validateFile(const std::string& filename) {
     int lineNum = 0;
     bool allLinesValid = true; // Flag to track if all lines are valid
 
-    while (std::getline(infile, line)) {
+    while (std::getline(infile, line))
+    {
         ++lineNum;
         float x, y;
-        if (!validatePointFormat(line, lineNum, x, y)) {
+        if (!validatePointFormat(line, lineNum, x, y))
+        {
             allLinesValid = false;
         }
     }
 
     infile.close();
 
-    if (!allLinesValid) {
+    if (!allLinesValid)
+    {
         throw std::runtime_error("Invalid lines in file: " + filename);
     }
 }
 
-void Graph::addValidPointsFromFile(const std::string& filename) {
+void Graph::addValidPointsFromFile(const std::string& filename)
+{
     std::ifstream infile(filename.c_str());
-    if (!infile) {
+    if (!infile)
+    {
         throw std::runtime_error("Error opening file: " + filename);
     }
 
     std::string line;
     int lineNum = 0;
 
-    while (std::getline(infile, line)) {
+    while (std::getline(infile, line))
+    {
         ++lineNum;
         float x, y;
-        if (validatePointFormat(line, lineNum, x, y)) {
+        if (validatePointFormat(line, lineNum, x, y))
+        {
             addPoint(x, y);
         }
     }
@@ -370,7 +369,8 @@ void Graph::addValidPointsFromFile(const std::string& filename) {
     infile.close();
 }
 
-bool Graph::validatePointFormat(const std::string& line, int lineNum, float& x, float& y) const {
+bool Graph::validatePointFormat(const std::string& line, int lineNum, float& x, float& y) const
+{
     std::istringstream iss(line);
     char separator;
 

@@ -28,8 +28,8 @@ class Vector2
         Vector2(const Vector2 &other);
         Vector2 &operator=(const Vector2 &other);
 
-        float getX(void) const;
-        float getY(void) const;
+        const float &getX(void) const;
+        const float &getY(void) const;
 
         void setX(float x);
         void setY(float y);

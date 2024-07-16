@@ -31,19 +31,14 @@ class Graph
         std::vector<Vector2> points;
         std::vector<std::pair<Vector2, Vector2> > lines;
 
-        void validateFile(const std::string& filename);
-        void addValidPointsFromFile(const std::string& filename);
-        bool validatePointFormat(const std::string& line, int lineNum, float& x, float& y) const;
+        void validateFile(const std::string &filename);
+        void addValidPointsFromFile(const std::string &filename);
+        bool validatePointFormat(const std::string &line, int lineNum, float &x, float &y) const;
         void addLine(float x1, float y1, float x2, float y2);
         // static because it doesn't depend on the object.
-        static bool compareX(const Vector2& a, const Vector2& b);
+        static bool compareX(const Vector2 &a, const Vector2 &b);
+        void sortPointsByX(void);
         void setSize(void);
-
-        // PNG-related private methods
-        // void writePNGHeader(std::ofstream& file) const;
-        // void writePNGData(std::ofstream& file, const std::vector<std::vector<unsigned char> >& image) const;
-        // unsigned int crc32(unsigned char* buf, unsigned int len) const;
-        // void writeChunk(std::ofstream& file, const char* type, const unsigned char* data, unsigned int length) const;
 
     public:
         Graph(void);
@@ -53,14 +48,11 @@ class Graph
         Graph &operator=(const Graph &other);
 
         void addPoint(float x, float y);
-        void addLinesFromPoints();
-        void displayPoints(void);
-        void displayLines(void);
-        void displayLinesWithPoints(void);
-        void readPointsFromFile(const std::string& filename);
-        void sortPointsByX();
-
-        //void drawToPNG(const std::string& filename) const;
+        void addLinesFromPoints(void);
+        void displayPoints(void) const;
+        void displayLines(void) const;
+        void displayLinesWithPoints(void) const;
+        void readPointsFromFile(const std::string &filename);
 };
 
 #endif
