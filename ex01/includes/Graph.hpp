@@ -24,6 +24,14 @@
 #include <algorithm>
 #include "Vector2.hpp"
 
+/**
+ * @class Graph
+ * @brief Represents a graph with points and lines.
+ * 
+ * The Graph class provides functionality to create and manipulate a graph.
+ * It allows adding points, lines, and reading points from a file.
+ * The graph can be displayed with or without points and lines.
+ */
 class Graph
 {
     private:

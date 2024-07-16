@@ -12,28 +12,58 @@
 
 #include "../includes/Graph.hpp"
 
-// Default constructor
+
+/**
+ * @brief Default constructor for the Graph class.
+ * 
+ * This constructor initializes the size of the graph to (0, 0).
+ */
 Graph::Graph(void) : size(0, 0)
 {
 }
 
-// Parameterized constructor
+
+/**
+ * @brief Constructs a Graph object with the specified width and height.
+ * 
+ * @param width The width of the graph.
+ * @param height The height of the graph.
+ */
 Graph::Graph(float width, float height) : size(width, height)
 {
 }
 
-// Destructor
+/**
+ * @brief Destructor for the Graph class.
+ * 
+ * This destructor is responsible for cleaning up any resources
+ * allocated by the Graph class.
+ */
 Graph::~Graph(void)
 {
 }
 
 // Copy constructor
+/**
+ * @brief Copy constructor for the Graph class.
+ * 
+ * This constructor creates a new Graph object by copying the contents of another Graph object.
+ * 
+ * @param other The Graph object to be copied.
+ */
 Graph::Graph(const Graph &other)
 {
     *this = other;
 }
 
-// Assignment operator
+/**
+ * @brief Assignment operator overload for the Graph class.
+ * 
+ * This function assigns the values of the given Graph object to the current object.
+ * 
+ * @param other The Graph object to be assigned.
+ * @return A reference to the current Graph object.
+ */
 Graph &Graph::operator=(const Graph &other)
 {
     if (this != &other)
@@ -45,6 +75,17 @@ Graph &Graph::operator=(const Graph &other)
     return (*this);
 }
 
+/**
+ * @brief Sets the size of the graph based on the maximum values of the vector2 points.
+ *        The size is calculated by adding an offset to the maximum X and Y values.
+ * 
+ * @details The function iterates through the vector of Vector2 points and finds the maximum X and Y values.
+ *          It then adds an offset to these values to determine the size of the graph.
+ * 
+ * @note The offset value is set to 5.0f.
+ * 
+ * @return void
+ */
 void Graph::setSize(void)
 {
     // Check max value of vector2 points and set size + OFFSET
@@ -63,6 +104,16 @@ void Graph::setSize(void)
     size = Vector2(maxX + OFFSET, maxY + OFFSET);
 }
 
+/**
+ * @brief Adds a point to the graph.
+ * 
+ * This function adds a point to the graph if it is within the bounds of the graph's size.
+ * If the graph's size is not set, any point with non-negative coordinates is allowed.
+ * If the point is out of bounds, an error message is printed to the standard error stream.
+ * 
+ * @param x The x-coordinate of the point.
+ * @param y The y-coordinate of the point.
+ */
 void Graph::addPoint(float x, float y)
 {
     if (size.getX() != 0 && size.getY() != 0)
@@ -86,21 +137,57 @@ void Graph::addPoint(float x, float y)
     }
 }
 
+/**
+ * @brief Adds a line to the graph.
+ * 
+ * This function adds a line to the graph by specifying the coordinates of two points.
+ * The line is represented by a pair of Vector2 objects, where each Vector2 object represents a point on the line.
+ * 
+ * @param x1 The x-coordinate of the first point.
+ * @param y1 The y-coordinate of the first point.
+ * @param x2 The x-coordinate of the second point.
+ * @param y2 The y-coordinate of the second point.
+ */
 void Graph::addLine(float x1, float y1, float x2, float y2)
 {
     lines.push_back(std::make_pair(Vector2(x1, y1), Vector2(x2, y2)));
 }
 
+/**
+ * Compares the x-coordinate of two Vector2 objects.
+ * 
+ * @param a The first Vector2 object.
+ * @param b The second Vector2 object.
+ * @return True if the x-coordinate of a is less than the x-coordinate of b, false otherwise.
+ */
 bool Graph::compareX(const Vector2& a, const Vector2& b)
 {
     return a.getX() < b.getX();
 }
 
+/**
+ * Sorts the points in the graph by their x-coordinate.
+ * 
+ * This function uses the std::sort algorithm to sort the points in the graph
+ * based on their x-coordinate. The points are sorted in ascending order.
+ * 
+ * @note This function assumes that the points vector is already populated with valid points.
+ * 
+ * @see compareX
+ */
 void Graph::sortPointsByX()
 {
     std::sort(points.begin(), points.end(), compareX);
 }
 
+/**
+ * @brief Adds lines between points in the graph.
+ * 
+ * This function clears any existing lines and connects each point to the next one in the sequence.
+ * The points are sorted by their x-coordinate before connecting them.
+ * 
+ * @return void
+ */
 void Graph::addLinesFromPoints() {
     lines.clear(); // Clear existing lines
 
@@ -113,6 +200,18 @@ void Graph::addLinesFromPoints() {
     }
 }
 
+/**
+ * @brief Displays the lines and points on a grid.
+ * 
+ * This function creates a grid with the specified size and initializes it with '.'.
+ * It then draws lines between the points using Bresenham's line algorithm.
+ * Finally, it places the points on the grid and prints the grid along with the x-axis indices.
+ * 
+ * @note This function assumes that the `size` member variable is properly set.
+ * 
+ * @param None.
+ * @return None.
+ */
 void Graph::displayLinesWithPoints(void) const
 {
     // Create a grid with size y+1 by x+1 initialized to '.' if x >= 10 && x < 100 print " " before x
@@ -187,6 +286,13 @@ void Graph::displayLinesWithPoints(void) const
 }
 
 
+/**
+ * @brief Displays the points of the graph.
+ *
+ * This function prints the points of the graph on the console.
+ * Each point is represented by 'o' and empty spaces are represented by '.'.
+ * The x and y coordinates of each point are displayed on the console as well.
+ */
 void Graph::displayPoints(void) const
 {
     for (int y = static_cast<int>(this->size.getY()); y >= 0; y--)
@@ -225,6 +331,18 @@ void Graph::displayPoints(void) const
     std::cout << "\n";
 }
 
+/**
+ * @brief Displays the lines on a grid.
+ * 
+ * This function creates a grid with the specified size and initializes it with '.'.
+ * It then places points on the grid and draws lines between the points using Bresenham's line algorithm.
+ * Finally, it prints the grid with the lines, along with the x-axis indices.
+ * 
+ * @note This function assumes that the `size` member variable is properly set.
+ * 
+ * @param None.
+ * @return None.
+ */
 void Graph::displayLines(void) const
 {
     // Create a grid with size y+1 by x+1 initialized to '.'
@@ -297,6 +415,14 @@ void Graph::displayLines(void) const
 }
 
 
+/**
+ * Validates the given file extension by calling the validateFile function.
+ * Adds valid points from a file to the graph object if the points are valid.
+ * Adds lines from the points.
+ * If the size of the graph is not set, it sets the size of the graph.
+ * 
+ * @param filename The name of the file to read points from.
+ */
 void Graph::readPointsFromFile(const std::string& filename)
 {
     validateFile(filename);
@@ -308,6 +434,13 @@ void Graph::readPointsFromFile(const std::string& filename)
     
 }
 
+/**
+ * Validates the given file by checking if it exists, has a valid file type, and if all lines in the file have a valid format.
+ * Throws an exception if any of the validations fail.
+ *
+ * @param filename The name of the file to validate.
+ * @throws std::runtime_error If the file cannot be opened, has an invalid file type, or contains invalid lines.
+ */
 void Graph::validateFile(const std::string& filename)
 {
     std::ifstream infile(filename.c_str());
@@ -345,6 +478,16 @@ void Graph::validateFile(const std::string& filename)
     }
 }
 
+/**
+ * Adds valid points from a file to the graph.
+ *
+ * This function reads a file specified by the `filename` parameter and adds valid points to the graph.
+ * Each line in the file is expected to contain two floating-point numbers separated by a space, representing the x and y coordinates of a point.
+ * The function validates each line to ensure it has the correct format before adding the point to the graph.
+ *
+ * @param filename The name of the file to read points from.
+ * @throws std::runtime_error if the file cannot be opened.
+ */
 void Graph::addValidPointsFromFile(const std::string& filename)
 {
     std::ifstream infile(filename.c_str());
@@ -369,6 +512,20 @@ void Graph::addValidPointsFromFile(const std::string& filename)
     infile.close();
 }
 
+/**
+ * Validates the format of a line containing coordinates in a graph.
+ *
+ * This function takes a line of text, along with the line number, and attempts to parse
+ * the x and y coordinates from the line. It checks if the format of the line is valid,
+ * and returns true if it is, or false otherwise. If the format is invalid, an error message
+ * is printed to the standard error stream.
+ *
+ * @param line The line of text to validate.
+ * @param lineNum The line number of the text.
+ * @param x A reference to a float variable to store the x coordinate.
+ * @param y A reference to a float variable to store the y coordinate.
+ * @return True if the format is valid, false otherwise.
+ */
 bool Graph::validatePointFormat(const std::string& line, int lineNum, float& x, float& y) const
 {
     std::istringstream iss(line);
