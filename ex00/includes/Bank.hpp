@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bank.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
+/*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:58 by guest             #+#    #+#             */
-/*   Updated: 2024/07/09 12:53:30 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/17 11:42:43 by andrefranci      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ class Bank
                 Account &operator=(const Account &src);
                 ~Account(void);
 
-                int getId(void) const;
-                int getValue(void) const;
+                const int &getId(void) const;
+                const int &getValue(void) const;
 
         };
 

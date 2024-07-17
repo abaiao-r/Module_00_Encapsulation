@@ -6,7 +6,7 @@
 /*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 21:42:41 by andrefranci       #+#    #+#             */
-/*   Updated: 2024/07/15 18:55:06 by andrefranci      ###   ########.fr       */
+/*   Updated: 2024/07/17 11:40:18 by andrefranci      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 #include <cctype>  // for std::isspace
 #include <string>
 #include <algorithm>
-#include "Vector2.hpp"
 
 /**
  * @class Graph
@@ -35,6 +34,27 @@
 class Graph
 {
     private:
+        class Vector2
+        {
+            private:
+                float x;
+                float y;
+
+            public:
+                Vector2(float x = 0, float y = 0);
+                ~Vector2(void);
+                Vector2(const Vector2 &other);
+                Vector2 &operator=(const Vector2 &other);
+
+                const float &getX(void) const;
+                const float &getY(void) const;
+
+                void setX(float x);
+                void setY(float y);
+
+
+        };
+        
         Vector2 size;
         std::vector<Vector2> points;
         std::vector<std::pair<Vector2, Vector2> > lines;

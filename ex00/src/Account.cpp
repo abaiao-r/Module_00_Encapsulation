@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Account.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
+/*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:55 by guest             #+#    #+#             */
-/*   Updated: 2024/07/08 14:08:42 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/17 11:42:31 by andrefranci      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ Bank::Account::~Account(void)
  * 
  * @return int The ID of the account.
  */
-int Bank::Account::getId(void) const
+const int &Bank::Account::getId(void) const
 {
     return (this->id);
 }
@@ -92,7 +92,7 @@ int Bank::Account::getId(void) const
  * 
  * @return int The value of the account.
  */
-int Bank::Account::getValue(void) const
+const int &Bank::Account::getValue(void) const
 {
     return (this->value);
 }

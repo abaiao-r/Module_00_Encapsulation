@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
+/*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:59:05 by guest             #+#    #+#             */
-/*   Updated: 2024/07/09 13:07:00 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/17 11:44:50 by andrefranci      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,7 +373,7 @@ void testDeleteAccounts()
         bank.createAccount();
         bank.createAccount();
         std::cout << bank << std::endl;
-        bank.deleteAccount(bank[i].getId());
+        bank.deleteAccount(bank[1].getId());
         std::cout << bank << std::endl;
 
         if (bank.getAccounts().size() == 1)
