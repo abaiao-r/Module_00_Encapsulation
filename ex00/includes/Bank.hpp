@@ -6,7 +6,7 @@
 /*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:58 by guest             #+#    #+#             */
-/*   Updated: 2024/07/17 11:42:43 by andrefranci      ###   ########.fr       */
+/*   Updated: 2024/07/17 11:59:17 by andrefranci      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ class Bank
         Bank &operator=(const Bank &src);
         ~Bank(void);
 
-        int getLiquidity(void) const;
+        const int &getLiquidity(void) const;
         void createAccount(void);
         void deleteAccount(int id);
         void deposit(int id, int amount);
         void withdraw(int id, int amount);
         void giveLoan(int id, int amount);
-        const std::map<int, const Account *> getAccounts(void) const;
+        const std::map<int, const Account *> &getAccounts(void) const;
         void displayAccounts(void) const;
 
         // Overload operator [] to access the accounts by their id

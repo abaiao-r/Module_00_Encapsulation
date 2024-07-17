@@ -6,7 +6,7 @@
 /*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:59:05 by guest             #+#    #+#             */
-/*   Updated: 2024/07/17 11:44:50 by andrefranci      ###   ########.fr       */
+/*   Updated: 2024/07/17 11:56:25 by andrefranci      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void    testAddMoneyAndDeductMoney()
     std::cout << bank << std::endl;
     if (bank[10].getValue() == 95 && bank.getLiquidity() == 5)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -52,7 +52,7 @@ void    testAddMoneyAndDeductMoney()
    
     if (bank[10].getValue() == 75 && bank.getLiquidity() == 5)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -68,7 +68,7 @@ void    testAddMoneyAndDeductMoney()
 
     if (bank[10].getValue() == 75 && bank.getLiquidity() == 5)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -88,7 +88,7 @@ void    testAddMoneyAndDeductMoney()
 
     if (bank[10].getValue() == 2040109540 && bank.getLiquidity() == 107374187)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -102,7 +102,7 @@ void    testAddMoneyAndDeductMoney()
 
     if (bank[10].getValue() == 2040109540 && bank.getLiquidity() == 107374187)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -135,7 +135,7 @@ void testAddMoneyViaBankOnly()
     bank.deposit(accountId, 100);
     if (bank[9].getValue() == 95 && bank.getLiquidity() == 5)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -173,7 +173,7 @@ void testGiveLoan(void)
 
     if (bank[5].getValue() == 1000 && bank.getLiquidity() == 0)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -195,7 +195,7 @@ void testGiveLoan(void)
     }
     else
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
 
     // Test to loan less than 0
@@ -212,7 +212,7 @@ void testGiveLoan(void)
     }
     else
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
 
     // Test to loan > Int_max
@@ -225,7 +225,7 @@ void testGiveLoan(void)
 
     if (bank4[8].getValue() == 950 && bank4.getLiquidity() == 50)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -255,7 +255,7 @@ void testCreateDeleteModifyAccounts()
 
     if (initialSize == 2 && newSize == 1)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -270,7 +270,7 @@ void testCreateDeleteModifyAccounts()
     
     if (bank[4].getValue() == 95 && bank.getLiquidity() == 5)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -317,7 +317,7 @@ void testUniqueAccountIds()
 
     if (id1 != id2)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -330,7 +330,7 @@ void testUniqueAccountIds()
  * 
  * It creates a bank object, creates an account, and deposits 100 units of money into the account.
  * Then, it checks if the bank's liquidity is 5 and if the account's value is 95.
- * If the test passes, it prints "Test passed!", otherwise it prints "Test failed!".
+ * If the test passes, it prints "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n", otherwise it prints "Test failed!".
  */
 void testBankReceive5Percent()
 {
@@ -344,7 +344,7 @@ void testBankReceive5Percent()
     std::cout << bank << std::endl;
     if (bank.getLiquidity() == 5 && bank.getAccounts().at(0)->getValue() == 95)
     {
-        std::cout << GREEN << "Test passed!\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n\n" << RESET;
     }
     else
     {
@@ -378,7 +378,7 @@ void testDeleteAccounts()
 
         if (bank.getAccounts().size() == 1)
         {
-            std::cout << GREEN << "Test passed! Account deleted successfully.\n" << RESET;
+            std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n Account deleted successfully.\n" << RESET;
         }
         else
         {
@@ -401,7 +401,7 @@ void testDeleteAccounts()
 
         if (bank.getAccounts().empty())
         {
-            std::cout << GREEN << "Test passed! All accounts deleted successfully.\n" << RESET;
+            std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n All accounts deleted successfully.\n" << RESET;
         }
         else
         {
@@ -426,7 +426,7 @@ void testDeleteAccounts()
 
             if (bank.getAccounts().empty())
             {
-                std::cout << GREEN << "Test passed! All accounts deleted successfully.\n" << RESET;
+                std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n All accounts deleted successfully.\n" << RESET;
             }
             else
             {
@@ -484,7 +484,7 @@ void testAccountIDUniqueness()
 
         if (unique)
         {
-            std::cout << GREEN << "Test passed! Account IDs are unique up to 1000.\n" << RESET;
+            std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n Account IDs are unique up to 1000.\n" << RESET;
         }
         else
         {
@@ -500,7 +500,7 @@ void testAccountIDUniqueness()
             {
                 bank.createAccount();
             }
-            std::cout << GREEN << "Test passed! Created more than INT_MAX accounts.\n" << RESET;
+            std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n Created more than INT_MAX accounts.\n" << RESET;
         }
         catch (const std::exception &e)
         {
@@ -527,7 +527,7 @@ void testAccountIDUniqueness()
 
         if (unique)
         {
-            std::cout << GREEN << "Test passed! Account IDs are unique up to INT_MAX.\n" << RESET;
+            std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n Account IDs are unique up to INT_MAX.\n" << RESET;
         }
         else
         {
@@ -555,7 +555,7 @@ void testCreateLotsOfAccounts()
     }
     if (bank.getAccounts().size() == 1000)
     {
-        std::cout << GREEN << "Test passed! Created 1000 accounts.\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n Created 1000 accounts.\n" << RESET;
     }
     else
     {
@@ -569,7 +569,7 @@ void testCreateLotsOfAccounts()
         {
             bank.createAccount();
         }
-        std::cout << GREEN << "Test passed! Created more than INT_MAX accounts.\n" << RESET;
+        std::cout << GREEN << "Test passed!\n\n-----------------------------------------------------------------------------------------------------------------------------\n\n Created more than INT_MAX accounts.\n" << RESET;
     }
     catch (const std::exception &e)
     {

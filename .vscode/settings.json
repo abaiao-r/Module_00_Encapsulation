@@ -46,6 +46,7 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "a": "c"
+        "a": "c",
+        "cstring": "cpp"
     }
 }

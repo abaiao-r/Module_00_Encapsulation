@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bank.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
+/*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:50 by guest             #+#    #+#             */
-/*   Updated: 2024/07/09 13:09:33 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/17 11:54:19 by andrefranci      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ Bank::~Bank(void)
  * 
  * @return int The liquidity of the bank.
  */
-int Bank::getLiquidity(void) const
+const int &Bank::getLiquidity(void) const
 {
     return (this->liquidity);
 }
@@ -310,15 +310,16 @@ void Bank::giveLoan(int id, int amount)
  * 
  * @return std::map<int, const Account*> The map of all accounts in the bank.
  */
-const std::map<int, const Bank::Account *> Bank::getAccounts(void) const
+const std::map<int, const Bank::Account *> &Bank::getAccounts(void) const
 {
-    std::map<int, const Account *> constAccounts;
-    for (std::map<int, Account *>::const_iterator it = clientAccounts.begin(); it != clientAccounts.end(); ++it)
+    std::map<int, const Account *> *accounts = new std::map<int, const Account *>();
+    for (std::map<int, Account *>::const_iterator it = this->clientAccounts.begin(); it != this->clientAccounts.end(); it++)
     {
-        constAccounts[it->first] = it->second;
+        (*accounts)[it->first] = it->second;
     }
-    return (constAccounts);
+    return (*accounts);
 }
+
 
 /**
  * @brief Overloaded subscript operator to access an account by ID.
