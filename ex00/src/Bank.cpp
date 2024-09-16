@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bank.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
+/*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:50 by guest             #+#    #+#             */
-/*   Updated: 2024/07/17 11:54:19 by andrefranci      ###   ########.fr       */
+/*   Updated: 2024/09/16 20:30:59 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ void Bank::deleteAccount(int id)
 void Bank::deposit(int id, int amount)
 {
     try {
+        // Validate deposit amount
         if (amount < 0)
         {
             throw std::invalid_argument("Error: Cannot deposit a negative amount");
@@ -170,32 +171,42 @@ void Bank::deposit(int id, int amount)
         {
             throw std::invalid_argument("Error: Cannot deposit an amount greater than INT_MAX");
         }
-    }
-    catch (std::exception &e)
-    {
-        std::cerr << YELLOW << e.what() << RESET << std::endl;
-        return;
-    }
-    std::map<int, Account *>::iterator it = this->clientAccounts.find(id);
-    if (it != this->clientAccounts.end())
-    {
-        int bankFee = amount * 0.05;
+
+        // Find the account by id
+        std::map<int, Account *>::iterator it = this->clientAccounts.find(id);
+        if (it == this->clientAccounts.end())
+        {
+            throw std::runtime_error("Error: Account not found");
+        }
+
+        // Calculate bank fee and net deposit amount
+        int bankFee = amount * 0.05;  // 5% fee
         int netAmount = amount - bankFee;
-        try
+
+        // Check for potential underflow
+        if (netAmount < 0 && it->second->value < INT_MIN - netAmount)
         {
-            it->second->addValue(netAmount);
+            throw std::runtime_error("Error: Account value underflow");
         }
-        catch (std::exception &e)
+
+        // Check for potential overflow
+        if (netAmount > 0 && it->second->value > INT_MAX - netAmount)
         {
-            std::cerr << YELLOW << e.what() << RESET << std::endl;
-            return;
+            throw std::runtime_error("Error: Account value overflow");
         }
-        this->liquidity += bankFee;
-        
+
+        // Perform the deposit
+        it->second->value += netAmount;  // Update the account value
+        this->liquidity += bankFee;      // Add the fee to the bank's liquidity
+
+        // Success message
         std::cout << GREEN << "Deposit of " << amount << " made to account " << id << RESET << std::endl;
-        return;    
     }
-    std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
+    catch (const std::exception &e)
+    {
+        // Catch and display any errors
+        std::cerr << YELLOW << e.what() << RESET << std::endl;
+    }
 }
 
 
@@ -216,6 +227,7 @@ void Bank::deposit(int id, int amount)
 void Bank::withdraw(int id, int amount)
 {
     try {
+        // Basic validation checks on withdrawal amount
         if (amount < 0)
         {
             throw std::invalid_argument("Error: Cannot withdraw a negative amount");
@@ -228,29 +240,45 @@ void Bank::withdraw(int id, int amount)
         {
             throw std::invalid_argument("Error: Cannot withdraw an amount greater than INT_MAX");
         }
+
+        // Search for the account in clientAccounts map
+        std::map<int, Account *>::iterator it = this->clientAccounts.find(id);
+        if (it != clientAccounts.end())
+        {
+            Account* account = it->second;
+
+            // Ensure account has sufficient funds
+            if (account->value < amount)
+            {
+                throw std::runtime_error("Error: Account has insufficient funds");
+            }
+
+            // Check for overflow and underflow during deduction
+            if (amount > 0 && account->value > INT_MAX - amount)
+            {
+                throw std::runtime_error("Error: Account value overflow");
+            }
+            if (amount < 0 && account->value < INT_MIN - amount)
+            {
+                throw std::runtime_error("Error: Account value underflow");
+            }
+
+            // Perform deduction
+            account->value -= amount;
+            std::cout << RED << "Account " << id << " debited with " << amount << RESET << std::endl;
+
+            std::cout << GREEN << "Withdrawal of " << amount << " made from account " << id << RESET << std::endl;
+        }
+        else
+        {
+            // Account not found
+            std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
+        }
     }
-    catch (std::exception &e)
+    catch (const std::exception &e)
     {
+        // Catch and display errors
         std::cerr << YELLOW << e.what() << RESET << std::endl;
-        return;
-    }
-    std::map<int, Account *>::iterator it = this->clientAccounts.find(id);
-    if (it != clientAccounts.end())
-    {
-        try
-        {
-            it->second->deductValue(amount);
-        }
-        catch (std::exception &e)
-        {
-            std::cerr << YELLOW << e.what() << RESET << std::endl;
-            return;
-        }
-        std::cout << GREEN << "Withdrawal of " << amount << " made from account " << id << RESET << std::endl;
-    }
-    else
-    {
-        std::cout << RED << "Account " << id << " not found" << RESET << std::endl;
     }
 }
 
@@ -293,7 +321,7 @@ void Bank::giveLoan(int id, int amount)
     std::map<int, Account *>::iterator it = this->clientAccounts.find(id);
     if (it != this->clientAccounts.end())
     {
-        it->second->addValue(amount);
+        it->second->value += amount;
         this->liquidity -= amount;
         std::cout << GREEN << "Loan of " << amount << " granted to account " << id << RESET << std::endl;
         return;

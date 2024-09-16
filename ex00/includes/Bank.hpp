@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bank.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
+/*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:58 by guest             #+#    #+#             */
-/*   Updated: 2024/07/17 11:59:17 by andrefranci      ###   ########.fr       */
+/*   Updated: 2024/09/16 20:27:42 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ class Bank
                 int value;
                 static int nextId;
 
+                // this allows the Bank class to access the private members of the Account class
                 friend class Bank;
-                void addValue(int amount);
-                void deductValue(int amount);
             
             public:
                 Account(void);

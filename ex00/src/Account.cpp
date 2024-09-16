@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Account.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrefrancisco <andrefrancisco@student.    +#+  +:+       +#+        */
+/*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:58:55 by guest             #+#    #+#             */
-/*   Updated: 2024/07/17 11:42:31 by andrefranci      ###   ########.fr       */
+/*   Updated: 2024/09/16 20:27:34 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,65 +95,6 @@ const int &Bank::Account::getId(void) const
 const int &Bank::Account::getValue(void) const
 {
     return (this->value);
-}
-
-/**
- * @brief Adds a specified amount to the account value.
- *
- * This function adds the specified amount to the current value of the account.
- * It performs checks for underflow and overflow to ensure that the account value
- * remains within the valid range. If an underflow or overflow occurs, an exception
- * is thrown with an appropriate error message.
- *
- * @param amount The amount to be added to the account value.
- *
- * @throws std::runtime_error if the account value would result in an underflow.
- * @throws std::overflow_error if the account value would result in an overflow.
- */
-void Bank::Account::addValue(int amount)
-{
-    // Check for underflow
-    if (amount < 0 && this->value < INT_MIN - amount)
-    {
-        throw std::runtime_error("Error: Account value underflow");
-    }
-    // Check for overflow
-    if (amount > 0 && this->value > INT_MAX - amount)
-    {
-        throw std::overflow_error("Error: Account value overflow");
-    }
-    this->value += amount;
-    std::cout << GREEN << "Account " << this->id << " credited with " << amount << RESET << std::endl;
-}
-
-/**
- * Deducts the specified amount from the account value.
- * Throws an exception if the account has insufficient funds,
- * or if the deduction would result in an underflow or overflow.
- *
- * @param amount The amount to be deducted from the account value.
- * @throws std::runtime_error if the account has insufficient funds,
- *         or if the deduction would result in an underflow or overflow.
- */
-void Bank::Account::deductValue(int amount)
-{
-    // check if account has sufficient funds
-    if (this->value < amount)
-    {
-        throw std::runtime_error("Error: Account has insufficient funds");
-    }
-    // Check for underflow
-    if (amount < 0 && this->value < INT_MIN - amount)
-    {
-        throw std::runtime_error("Error: Account value underflow");
-    }
-    // Check for overflow
-    if (amount > 0 && this->value > INT_MAX - amount)
-    {
-        throw std::runtime_error("Error: Account value overflow");
-    }
-    this->value -= amount;
-    std::cout << RED << "Account " << this->id << " debited with " << amount << RESET << std::endl;
 }
 
 
